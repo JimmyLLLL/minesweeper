@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="preconnect" href="https://api.counterapi.dev">
+    <link rel="dns-prefetch" href="https://api.counterapi.dev">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0b0f">
+    <meta name="description" content="Play Minesweeper free online — classic minesweeper game with 3 difficulty levels. Left-click to reveal, right-click to flag mines. No download, no signup, works in your browser.">
+    <meta name="keywords" content="minesweeper, play minesweeper, minesweeper online, minesweeper free, classic minesweeper, minesweeper game, play minesweeper online, mine sweeper">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://jimmywithfiona.com/minesweeper/">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1840337371416691" crossorigin="anonymous"></script>
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Minesweeper">
+    <meta property="og:title" content="Minesweeper — Play Classic Minesweeper Free Online">
+    <meta property="og:description" content="Play the classic minesweeper game free. 3 difficulty levels, timer, flag mines, auto-reveal. No download.">
+    <meta property="og:url" content="https://jimmywithfiona.com/minesweeper/">
+    <meta property="og:image" content="https://jimmywithfiona.com/minesweeper/favicon.svg">
+    <meta property="og:locale" content="en_US">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Minesweeper — Play Classic Minesweeper Free">
+    <meta name="twitter:description" content="Play classic minesweeper online. 3 levels, timer, flag mines. Free.">
+    <meta name="twitter:image" content="https://jimmywithfiona.com/minesweeper/favicon.svg">
+    <title>Minesweeper — Play Classic Minesweeper Free Online | No Download</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebApplication","name":"Minesweeper","url":"https://jimmywithfiona.com/minesweeper/","description":"Free online classic minesweeper game. 3 difficulty levels, timer, flag mines, auto-reveal empty cells.","applicationCategory":"GameApplication","operatingSystem":"Any (Web Browser)","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+    </script>
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+        {"@type":"Question","name":"How do you play Minesweeper?","acceptedAnswer":{"@type":"Answer","text":"Left-click to reveal a cell. If it's a mine, you lose. If it shows a number, that's how many mines are adjacent. Right-click to flag cells you think are mines. Reveal all non-mine cells to win."}},
+        {"@type":"Question","name":"What do the numbers mean in Minesweeper?","acceptedAnswer":{"@type":"Answer","text":"Each number shows how many mines are in the 8 adjacent cells. Use these numbers to deduce where mines are hidden."}},
+        {"@type":"Question","name":"What happens when I click an empty cell?","acceptedAnswer":{"@type":"Answer","text":"If a cell has zero adjacent mines, it automatically reveals all connected empty cells and their number borders. This is called a flood fill."}},
+        {"@type":"Question","name":"Is this Minesweeper free?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely free. No signup, no download. Play in your browser on desktop or mobile."}}
+    ]}
+    </script>
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://jimmywithfiona.com/"},{"@type":"ListItem","position":2,"name":"Minesweeper","item":"https://jimmywithfiona.com/minesweeper/"}]}
+    </script>
+</head>
+<body>
+<nav class="navbar">
+    <a class="brand" href="/minesweeper/">💣 Minesweeper</a>
+    <div class="nav-links">
+        <a href="/minesweeper/" class="active">Play</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="contact.html">Contact</a>
+        <a href="/">🏠 Home</a>
+    </div>
+</nav>
+<main>
+    <h1>Minesweeper</h1>
+    <p class="subtitle">Classic minesweeper — reveal all safe cells without hitting a mine.</p>
+
+    <div class="diff-btns">
+        <button class="diff-btn active" onclick="setDifficulty('easy',this)">😊 Easy (9×9)</button>
+        <button class="diff-btn" onclick="setDifficulty('medium',this)">😐 Medium (16×16)</button>
+        <button class="diff-btn" onclick="setDifficulty('hard',this)">😈 Hard (30×16)</button>
+    </div>
+
+    <div class="best-times">
+        <div class="best-card"><div class="label">Best · Easy</div><div class="value" id="bestEasy">—</div></div>
+        <div class="best-card"><div class="label">Best · Medium</div><div class="value" id="bestMedium">—</div></div>
+        <div class="best-card"><div class="label">Best · Hard</div><div class="value" id="bestHard">—</div></div>
+    </div>
+
+    <div class="game-header">
+        <div class="counter"><div class="label">Mines</div><div class="value" id="mineCount">010</div></div>
+        <button class="reset-btn" onclick="newGame()" id="resetBtn" title="New Game">😊</button>
+        <div class="counter timer"><div class="label">Time</div><div class="value" id="timer">000</div></div>
+    </div>
+
+    <div class="board-wrap"><div class="board" id="board"></div></div>
+
+    <div class="status" id="status">
+        <div class="title" id="statusTitle"></div>
+        <div class="detail" id="statusDetail"></div>
+    </div>
+
+    <p style="text-align:center;color:var(--dim);font-size:.8rem;margin-bottom:1rem;">Left-click: reveal · Right-click (or long-press): flag</p>
+
+    <div class="stats-footer">👁️ Views <strong id="pv">-</strong><span class="stat-divider">|</span>👤 Visitors <strong id="uv">-</strong></div>
+
+    <div class="seo-section">
+        <h2>Free Online Minesweeper</h2>
+        <p>Play the classic Minesweeper game right in your browser — no download, no signup, completely free. Choose from three difficulty levels and test your logic skills. The goal is simple: reveal all the safe cells without clicking on a mine.</p>
+        <h2>How to Play Minesweeper</h2>
+        <ul>
+            <li><strong>Left-click</strong> a cell to reveal it. If it's a mine, game over!</li>
+            <li><strong>Right-click</strong> (or long-press on mobile) to place a flag on suspected mines.</li>
+            <li><strong>Numbers</strong> show how many mines are in the 8 surrounding cells.</li>
+            <li><strong>Empty cells</strong> auto-reveal connected empty areas and their borders.</li>
+            <li><strong>Win</strong> by revealing every cell that doesn't contain a mine.</li>
+        </ul>
+        <h2>Minesweeper Strategies</h2>
+        <ul>
+            <li><strong>Start in the center</strong> — center clicks have a higher chance of opening large empty areas.</li>
+            <li><strong>Look for 1-1 patterns</strong> — two adjacent 1s sharing a wall often indicate mine locations.</li>
+            <li><strong>Flag confirmed mines</strong> — marking mines helps you track what's safe.</li>
+            <li><strong>Count remaining mines</strong> — the mine counter tells you how many are left.</li>
+            <li><strong>Use process of elimination</strong> — if a number equals its flagged neighbors, other neighbors are safe.</li>
+        </ul>
+        <h2>Difficulty Levels</h2>
+        <ul>
+            <li><strong>Easy (9×9, 10 mines)</strong> — Perfect for beginners learning the game.</li>
+            <li><strong>Medium (16×16, 40 mines)</strong> — The classic Windows Minesweeper difficulty.</li>
+            <li><strong>Hard (30×16, 99 mines)</strong> — For experienced players seeking a challenge.</li>
+        </ul>
+        <h2>History of Minesweeper</h2>
+        <p>Minesweeper was created by Robert Donner and Curt Johnson in 1989 and became famous when bundled with Microsoft Windows starting in 1992. It was originally included to teach mouse skills — left-click, right-click, and precision pointing. Decades later, it remains one of the most played puzzle games in the world, loved for its simple rules and deep logical challenge.</p>
+        <h2>FAQ</h2>
+        <p><strong>Is the first click safe?</strong> — Yes. The first cell you click is always safe. Mines are placed after your first click, avoiding that cell.</p>
+        <p><strong>Does it work on mobile?</strong> — Yes. Long-press a cell to flag it on touch devices.</p>
+        <p><strong>Are my best times saved?</strong> — Yes, best times for each difficulty are saved locally in your browser.</p>
+    </div>
+</main>
+<footer>
+    <p><a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a> · <a href="/">Home</a></p>
+    <p style="margin-top:0.4rem;">Minesweeper © 2026 · Free classic minesweeper game</p>
+    <div style="margin-top:0.6rem;font-size:0.72rem;opacity:0.6;">More: <a href="/wordle/">Wordle</a> · <a href="/game-2048/">2048</a> · <a href="/brick-breaker/">Brick Breaker</a> · <a href="/win98-simulator/">Win98</a> · <a href="/word-counter/">Word Counter</a></div>
+</footer>
+<script src="js/counter.js" defer></script>
+<script>
+const DIFFS = {
+    easy:   { rows: 9,  cols: 9,  mines: 10 },
+    medium: { rows: 16, cols: 16, mines: 40 },
+    hard:   { rows: 16, cols: 30, mines: 99 },
+};
+
+let diff = "easy";
+let rows, cols, mineCount;
+let grid = [];
+let revealed = [];
+let flagged = [];
+let gameOver = false;
+let firstClick = true;
+let flagsPlaced = 0;
+let revealedCount = 0;
+let timerInterval = null;
+let startTime = null;
+let elapsed = 0;
+
+const board = document.getElementById("board");
+const mineDisplay = document.getElementById("mineCount");
+const timerDisplay = document.getElementById("timer");
+const resetBtn = document.getElementById("resetBtn");
+
+function setDifficulty(d, btn) {
+    diff = d;
+    document.querySelectorAll(".diff-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    newGame();
+}
+
+function newGame() {
+    const cfg = DIFFS[diff];
+    rows = cfg.rows; cols = cfg.cols; mineCount = cfg.mines;
+    grid = []; revealed = []; flagged = [];
+    gameOver = false; firstClick = true;
+    flagsPlaced = 0; revealedCount = 0;
+    elapsed = 0;
+    clearInterval(timerInterval);
+    timerDisplay.textContent = "000";
+    mineDisplay.textContent = String(mineCount).padStart(3, "0");
+    resetBtn.textContent = "😊";
+    document.getElementById("status").classList.remove("show", "win", "lose");
+
+    for (let r = 0; r < rows; r++) {
+        grid[r] = []; revealed[r] = []; flagged[r] = [];
+        for (let c = 0; c < cols; c++) {
+            grid[r][c] = 0; revealed[r][c] = false; flagged[r][c] = false;
+        }
+    }
+    renderBoard();
+    loadBestTimes();
+}
+
+function placeMines(safeR, safeC) {
+    let placed = 0;
+    while (placed < mineCount) {
+        const r = Math.floor(Math.random() * rows);
+        const c = Math.floor(Math.random() * cols);
+        if (grid[r][c] === -1) continue;
+        if (Math.abs(r - safeR) <= 1 && Math.abs(c - safeC) <= 1) continue;
+        grid[r][c] = -1;
+        placed++;
+    }
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            if (grid[r][c] === -1) continue;
+            let count = 0;
+            for (let dr = -1; dr <= 1; dr++) {
+                for (let dc = -1; dc <= 1; dc++) {
+                    const nr = r + dr, nc = c + dc;
+                    if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] === -1) count++;
+                }
+            }
+            grid[r][c] = count;
+        }
+    }
+}
+
+function renderBoard() {
+    board.innerHTML = "";
+    board.style.gridTemplateColumns = "repeat(" + cols + ", auto)";
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            const cell = document.createElement("div");
+            cell.className = "cell";
+            cell.dataset.r = r;
+            cell.dataset.c = c;
+            updateCell(cell, r, c);
+            cell.addEventListener("click", e => handleClick(r, c));
+            cell.addEventListener("contextmenu", e => { e.preventDefault(); handleFlag(r, c); });
+            let pressTimer = null;
+            cell.addEventListener("touchstart", e => {
+                pressTimer = setTimeout(() => { handleFlag(r, c); pressTimer = null; }, 400);
+            });
+            cell.addEventListener("touchend", e => { if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; } });
+            board.appendChild(cell);
+        }
+    }
+}
+
+function updateCell(cell, r, c) {
+    cell.className = "cell";
+    cell.textContent = "";
+    if (flagged[r][c]) {
+        cell.classList.add("flagged");
+    } else if (revealed[r][c]) {
+        cell.classList.add("revealed");
+        if (grid[r][c] === -1) {
+            cell.classList.add("mine");
+        } else if (grid[r][c] === 0) {
+            cell.classList.add("empty");
+        } else {
+            cell.classList.add("n" + grid[r][c]);
+            cell.textContent = grid[r][c];
+        }
+    }
+}
+
+function handleClick(r, c) {
+    if (gameOver || flagged[r][c]) return;
+    if (firstClick) {
+        firstClick = false;
+        placeMines(r, c);
+        startTimer();
+    }
+    if (grid[r][c] === -1) {
+        reveal(r, c);
+        loseGame(r, c);
+        return;
+    }
+    floodFill(r, c);
+    renderAll();
+    checkWin();
+}
+
+function handleFlag(r, c) {
+    if (gameOver || revealed[r][c]) return;
+    flagged[r][c] = !flagged[r][c];
+    flagsPlaced += flagged[r][c] ? 1 : -1;
+    mineDisplay.textContent = String(mineCount - flagsPlaced).padStart(3, "0");
+    const cell = board.children[r * cols + c];
+    updateCell(cell, r, c);
+}
+
+function reveal(r, c) {
+    if (r < 0 || r >= rows || c < 0 || c >= cols) return;
+    if (revealed[r][c] || flagged[r][c]) return;
+    revealed[r][c] = true;
+    revealedCount++;
+}
+
+function floodFill(r, c) {
+    const stack = [[r, c]];
+    while (stack.length) {
+        const [cr, cc] = stack.pop();
+        if (cr < 0 || cr >= rows || cc < 0 || cc >= cols) continue;
+        if (revealed[cr][cc] || flagged[cr][cc]) continue;
+        reveal(cr, cc);
+        if (grid[cr][cc] === 0) {
+            for (let dr = -1; dr <= 1; dr++) {
+                for (let dc = -1; dc <= 1; dc++) {
+                    if (dr === 0 && dc === 0) continue;
+                    stack.push([cr + dr, cc + dc]);
+                }
+            }
+        }
+    }
+}
+
+function renderAll() {
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            const cell = board.children[r * cols + c];
+            updateCell(cell, r, c);
+        }
+    }
+}
+
+function startTimer() {
+    startTime = Date.now();
+    timerInterval = setInterval(() => {
+        elapsed = Math.floor((Date.now() - startTime) / 1000);
+        timerDisplay.textContent = String(Math.min(elapsed, 999)).padStart(3, "0");
+    }, 1000);
+}
+
+function checkWin() {
+    if (revealedCount === rows * cols - mineCount) {
+        winGame();
+    }
+}
+
+function winGame() {
+    gameOver = true;
+    clearInterval(timerInterval);
+    resetBtn.textContent = "😎";
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            if (grid[r][c] === -1 && !flagged[r][c]) {
+                flagged[r][c] = true;
+            }
+        }
+    }
+    flagsPlaced = mineCount;
+    mineDisplay.textContent = "000";
+    renderAll();
+    saveBestTime();
+    const status = document.getElementById("status");
+    document.getElementById("statusTitle").textContent = "🎉 You Win!";
+    document.getElementById("statusDetail").textContent = "Time: " + elapsed + "s · " + diff.charAt(0).toUpperCase() + diff.slice(1);
+    status.classList.add("show", "win");
+}
+
+function loseGame(explodeR, explodeC) {
+    gameOver = true;
+    clearInterval(timerInterval);
+    resetBtn.textContent = "😵";
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            if (grid[r][c] === -1 && !flagged[r][c]) {
+                revealed[r][c] = true;
+            }
+            if (flagged[r][c] && grid[r][c] !== -1) {
+                revealed[r][c] = true;
+            }
+        }
+    }
+    renderAll();
+    const explodedCell = board.children[explodeR * cols + explodeC];
+    explodedCell.classList.add("exploded");
+    const status = document.getElementById("status");
+    document.getElementById("statusTitle").textContent = "💥 Game Over";
+    document.getElementById("statusDetail").textContent = "You hit a mine! Click 😵 to try again.";
+    status.classList.add("show", "lose");
+}
+
+function saveBestTime() {
+    const key = "mine_best_" + diff;
+    const best = parseInt(localStorage.getItem(key) || "999");
+    if (elapsed < best) {
+        localStorage.setItem(key, elapsed);
+    }
+    loadBestTimes();
+}
+
+function loadBestTimes() {
+    ["easy", "medium", "hard"].forEach(d => {
+        const best = localStorage.getItem("mine_best_" + d);
+        const el = document.getElementById("best" + d.charAt(0).toUpperCase() + d.slice(1));
+        if (el) el.textContent = best ? best + "s" : "—";
+    });
+}
+
+newGame();
+</script>
+</body>
+</html>
