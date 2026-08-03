@@ -40,5 +40,35 @@
 </main>
 <footer><p>© 2026 Minesweeper · <a href="/">Home</a></p></footer>
 <script src="js/counter.js" defer></script>
+<!-- I18N-FULL -->
+<script>
+(function(){
+var lang=(navigator.language||navigator.userLanguage||'en').toLowerCase();
+if(!lang.startsWith('zh'))return;
+var ZH={"💣 Minesweeper":"💣 扫雷","Play":"游玩","About":"关于","Privacy":"隐私","Contact":"联系","🏠 Home":"🏠 首页","About Minesweeper":"关于扫雷","Minesweeper is the classic puzzle game where you reveal cells on a grid, using number clues to deduce where mines are hidden. Our free version features 3 difficulty levels, a timer, flagging, auto-reveal of empty areas, and best time tracking.":"扫雷是一款经典的益智游戏，你需要根据数字线索推理出隐藏的地雷位置。我们的免费版本提供3个难度级别、计时器、标记功能、空白区域自动展开以及最佳成绩记录。","Features":"功能特点","3 difficulty levels: Easy (9×9), Medium (16×16), Hard (30×16)":"3个难度级别：简单（9×9）、中等（16×16）、困难（30×16）","First click is always safe":"首次点击必定安全","Auto-reveal of connected empty cells (flood fill)":"自动展开相连的空白格子（洪水填充）","Right-click or long-press to flag mines":"右键或长按标记地雷","Live mine counter and timer":"实时地雷计数器和计时器","Best time tracking for each difficulty":"每个难度的最佳成绩记录","Color-coded numbers (1-8)":"彩色数字（1-8）","Works on desktop and mobile":"支持桌面和移动设备","100% free, no signup, no download":"100%免费，无需注册，无需下载","How Numbers Work":"数字规则","Each revealed number tells you how many mines are in the 8 adjacent cells. Use logic to determine which cells are safe and which contain mines. Flag suspected mines with right-click.":"每个显示的数字表示周围8个相邻格子中有多少颗地雷。运用逻辑判断哪些格子安全、哪些藏有地雷。右键标记可疑的地雷。","Play Minesweeper →":"开始扫雷 →","👁️ Views":"👁️ 浏览量","👤 Visitors":"👤 访客数","© 2026 Minesweeper ·":"© 2026 扫雷 ·","Home":"首页"};
+function walk(node){
+if(node.nodeType===3){
+var t=node.textContent,k=t.trim();
+if(k&&ZH[k]){node.textContent=t.replace(k,ZH[k])}
+}else if(node.nodeType===1&&node.tagName!=='SCRIPT'&&node.tagName!=='STYLE'&&node.tagName!=='NOSCRIPT'){
+if(node.childNodes.length>1){
+var full=node.textContent.trim();
+if(ZH[full]){node.textContent=ZH[full];return}
+}
+for(var i=0;i<node.childNodes.length;i++){walk(node.childNodes[i])}
+}
+}
+walk(document.body);
+document.documentElement.lang='zh-CN';
+var mo=new MutationObserver(function(muts){
+muts.forEach(function(m){
+if(m.type==='childList'){m.addedNodes.forEach(function(n){walk(n)})}
+else if(m.type==='characterData'){walk(m.target)}
+});
+});
+mo.observe(document.body,{childList:true,subtree:true,characterData:true});
+})();
+</script>
+<!-- /I18N-FULL -->
 </body>
 </html>
